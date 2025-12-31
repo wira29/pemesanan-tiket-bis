@@ -13,7 +13,9 @@
   <!-- Core Css -->
   <link rel="stylesheet" href="{{ asset('') }}assets/css/styles.css" />
 
-  <title>Modernize Bootstrap Admin</title>
+  <title>
+    {{ config('app.name', 'Laravel') }}
+  </title>
   <!-- Owl Carousel  -->
   <link rel="stylesheet" href="{{ asset('') }}assets/libs/owl.carousel/dist/assets/owl.carousel.min.css" />
 
@@ -76,7 +78,7 @@
 <body>
   <!-- Preloader -->
   <div class="preloader">
-    <img src="../assets/images/logos/favicon.png" alt="loader" class="lds-ripple img-fluid" />
+    <img src="{{ asset('') }}assets/travel-logo.png" alt="loader" class="lds-ripple img-fluid" />
   </div>
   <div id="main-wrapper">
     <!-- Sidebar Start -->

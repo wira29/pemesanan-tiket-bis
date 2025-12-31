@@ -21,8 +21,63 @@
 
     <div class="card w-100 position-relative overflow-hidden">
             <div class="px-4 py-3 border-bottom">
-              <h4 class="card-title mb-0">List Tiket</h4>
-            </div>
+              <h4 class="card-title mb-3">List Tiket</h4>
+
+              <form method="GET" class="row g-2 align-items-end">
+                  <div class="col-md-3">
+                      <label class="form-label">Tanggal</label>
+                      <input
+                          type="date"
+                          name="date"
+                          class="form-control"
+                          value="{{ request('date', now()->toDateString()) }}"
+                      >
+                  </div>
+
+                  <div class="col-md-3">
+                      <label class="form-label">Nama</label>
+                      <input
+                          type="text"
+                          name="name"
+                          class="form-control"
+                          placeholder="Nama penumpang"
+                          value="{{ request('name') }}"
+                      >
+                  </div>
+
+                  <div class="col-md-3">
+                      <label class="form-label">No Kendaraan</label>
+                      <input
+                          type="text"
+                          name="vehicle_number"
+                          class="form-control"
+                          placeholder="DH 7168 AA"
+                          value="{{ request('vehicle_number') }}"
+                      >
+                  </div>
+
+                  <div class="col-md-3">
+                      <label class="form-label">WhatsApp</label>
+                      <input
+                          type="text"
+                          name="whatsapp"
+                          class="form-control"
+                          placeholder="08xxx"
+                          value="{{ request('whatsapp') }}"
+                      >
+                  </div>
+
+                  <div class="col-12 d-flex gap-2 mt-2">
+                      <button class="btn btn-primary">
+                          Filter
+                      </button>
+
+                      <a href="{{ url()->current() }}" class="btn btn-outline-secondary">
+                          Reset
+                      </a>
+                  </div>
+              </form>
+          </div>
             <div class="card-body p-4 border-bottom">
               <div class="table-responsive mb-4 border rounded-1">
                 <table class="table text-nowrap mb-0 align-middle">
@@ -39,6 +94,9 @@
                       </th>
                       <th>
                         <h6 class="fs-4 fw-semibold mb-0">Tanggal</h6>
+                      </th>
+                      <th>
+                        <h6 class="fs-4 fw-semibold mb-0">Asal - Tujuan</h6>
                       </th>
                       <th>
                         <h6 class="fs-4 fw-semibold mb-0">Aksi</h6>
@@ -69,6 +127,9 @@
                         <td>
                           {{ $ticket->travel->date->format('d F Y') }}
                         </td>
+                        <td>
+                          {{ $ticket->from ?? '' }} - {{ $ticket->destination ?? '' }}
+                        </td>
                         <td class="text-center">
                           <a href="{{ route('tickets.edit', $ticket->id) }}" class="btn bg-warning-subtle text-warning text-warning"><i class="ti ti-edit"></i></a>
                           <a href="#" class="btn bg-danger-subtle text-danger btn-delete" data-id="{{ $ticket->id }}" data-bs-toggle="modal" data-bs-target="#bs-example-modal-sm"><i class="ti ti-trash"></i></a>
@@ -80,7 +141,7 @@
               </div>
             </div>
             <div class="px-4 py-3 border-bottom">
-                {{ $tickets->links() }}
+                {{ $tickets->appends(request()->only('date', 'name', 'vehicle_number', 'whatsapp'))->links() }}
             </div>
           </div>
 

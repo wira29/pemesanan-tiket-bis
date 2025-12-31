@@ -32,6 +32,38 @@
     <div class="card w-100 position-relative overflow-hidden">
             <div class="px-4 py-3 border-bottom">
               <h4 class="card-title mb-0">List Perjalanan</h4>
+              <form method="GET" class="row g-2 align-items-end">
+                  <div class="col-md-3">
+                      <label class="form-label">Tanggal</label>
+                      <input
+                          type="date"
+                          name="date"
+                          class="form-control"
+                          value="{{ request('date', now()->toDateString()) }}"
+                      >
+                  </div>
+
+                  <div class="col-md-3">
+                      <label class="form-label">No Kendaraan</label>
+                      <input
+                          type="text"
+                          name="vehicle_number"
+                          class="form-control"
+                          placeholder="DH 7168 AA"
+                          value="{{ request('vehicle_number') }}"
+                      >
+                  </div>
+
+                  <div class="col-12 d-flex gap-2 mt-2">
+                      <button class="btn btn-primary">
+                          Filter
+                      </button>
+
+                      <a href="{{ url()->current() }}" class="btn btn-outline-secondary">
+                          Reset
+                      </a>
+                  </div>
+              </form>
             </div>
             <div class="card-body p-4">
               <div class="table-responsive mb-4 border rounded-1">

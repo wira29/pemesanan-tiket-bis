@@ -56,6 +56,42 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Naik</label>
+                            <select name="from" class="form-control" id="">
+                                <option value="" selected> -- Pilih -- </option>
+                                <option value="kupang" {{ old('form') == 'kupang' ? 'selected' : '' }}>Kupang</option>
+                                <option value="soe" {{ old('form') == 'soe' ? 'selected' : '' }}>Soe</option>
+                                <option value="kefa" {{ old('form') == 'kefa' ? 'selected' : '' }}>Kefa</option>
+                                <option value="atambua" {{ old('form') == 'atambua' ? 'selected' : '' }}>Atambua</option>
+                                <option value="dili" {{ old('form') == 'dili' ? 'selected' : '' }}>Dili</option>
+                            </select>
+                            @error('from')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Turun</label>
+                            <select name="destination" class="form-control" id="">
+                                <option value="" selected> -- Pilih -- </option>
+                                <option value="kupang" {{ old('destination') == 'kupang' ? 'selected' : '' }}>Kupang</option>
+                                <option value="soe" {{ old('destination') == 'soe' ? 'selected' : '' }}>Soe</option>
+                                <option value="kefa" {{ old('destination') == 'kefa' ? 'selected' : '' }}>Kefa</option>
+                                <option value="atambua" {{ old('destination') == 'atambua' ? 'selected' : '' }}>Atambua</option>
+                                <option value="dili" {{ old('destination') == 'dili' ? 'selected' : '' }}>Dili</option>
+                            </select>
+                            @error('destination')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
                     <hr>
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
@@ -86,7 +122,7 @@
                                 <option value="m">Laki-Laki</option>
                                 <option value="f">Perempuan</option>
                             </select>
-                            @error('destination')
+                            @error('gender')
                                 <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -100,7 +136,7 @@
                                 <option value="dewasa">Dewasa</option>
                                 <option value="anak-anak">Anak-Anak</option>
                             </select>
-                            @error('destination')
+                            @error('age')
                                 <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -118,7 +154,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <!-- <div class="col-md-6 mb-3">
                         <div class="form-group" id="half-form">
                             <div class="form-check">
                             <input class="form-check-input" name="is_half" type="checkbox" value="1" id="flexCheckDefault" {{ old('is_half') ? 'checked' : '' }}>
@@ -132,7 +168,7 @@
                             @enderror
                           </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="px-4 py-3 border-bottom">

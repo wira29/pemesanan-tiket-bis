@@ -56,6 +56,42 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Naik</label>
+                            <select name="from" class="form-control" id="">
+                                <option value="" selected> -- Pilih -- </option>
+                                <option value="kupang" {{ $ticket->from == 'kupang' ? 'selected' : '' }}>Kupang</option>
+                                <option value="soe" {{ $ticket->from == 'soe' ? 'selected' : '' }}>Soe</option>
+                                <option value="kefa" {{ $ticket->from == 'kefa' ? 'selected' : '' }}>Kefa</option>
+                                <option value="atambua" {{ $ticket->from == 'atambua' ? 'selected' : '' }}>Atambua</option>
+                                <option value="dili" {{ $ticket->from == 'dili' ? 'selected' : '' }}>Dili</option>
+                            </select>
+                            @error('from')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Turun</label>
+                            <select name="destination" class="form-control" id="">
+                                <option value="" selected> -- Pilih -- </option>
+                                <option value="kupang" {{ $ticket->destination == 'kupang' ? 'selected' : '' }}>Kupang</option>
+                                <option value="soe" {{ $ticket->destination == 'soe' ? 'selected' : '' }}>Soe</option>
+                                <option value="kefa" {{ $ticket->destination == 'kefa' ? 'selected' : '' }}>Kefa</option>
+                                <option value="atambua" {{ $ticket->destination == 'atambua' ? 'selected' : '' }}>Atambua</option>
+                                <option value="dili" {{ $ticket->destination == 'dili' ? 'selected' : '' }}>Dili</option>
+                            </select>
+                            @error('destination')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
                     <hr>
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
@@ -118,7 +154,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <!-- <div class="col-md-6 mb-3">
                         <div class="form-group">
                             <div class="form-check">
                             <input class="form-check-input" name="is_half" type="checkbox" value="1" id="flexCheckDefault" {{ $ticket->is_half ? 'checked' : '' }}>
@@ -132,7 +168,7 @@
                             @enderror
                           </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="px-4 py-3 border-bottom">

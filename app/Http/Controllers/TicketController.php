@@ -7,16 +7,41 @@ use App\Http\Requests\TicketRequest;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 
+use function Symfony\Component\Clock\now;
+
 class TicketController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = [
-            "tickets" => Ticket::with('travel')->orderBy('created_at', 'desc')->paginate(10),
+            "tickets" => Ticket::with('travel')->whereRelation('travel', function ($q) {
+                $q->whereDate('date', now());
+            })->orderBy('created_at', 'desc'),
         ];
+
+        if ($request->has('date')) {
+            $data['tickets'] = Ticket::with('travel')->whereRelation('travel', function ($q) use ($request) {
+                $q->whereDate('date', $request->date);
+            })->orderBy('created_at', 'desc');
+        }
+
+        if ($request->has('name')) {
+            $data['tickets'] = $data['tickets']->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        if ($request->has('vehicle_number')) {
+            $data['tickets'] = $data['tickets']->whereRelation('travel', 'vehicle_number', 'like', '%' . $request->vehicle_number . '%');
+        }
+
+        if ($request->has('whatsapp')) {
+            $data['tickets'] = $data['tickets']->where('whatsapp', 'like', '%' . $request->whatsapp . '%');
+        }
+
+        $data['tickets'] = $data['tickets']->paginate(10);
+
         return view('pages.tiket.index', $data);
     }
 

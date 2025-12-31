@@ -15,11 +15,22 @@ class PerjalananController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = [
-            "travels" => Travel::with('tickets')->orderBy('date', 'desc')->paginate(10),
+            "travels" => Travel::with('tickets')->whereDate('date', now())->orderBy('date', 'desc'),
         ];
+
+        if ($request->has('date')) {
+            $data['travels'] = Travel::with('tickets')->whereDate('date', $request->date)->orderBy('date', 'desc');
+        }
+
+        if ($request->has('vehicle_number')) {
+            $data['travels'] = $data['travels']->where('vehicle_number', 'like', '%' . $request->vehicle_number . '%');
+        }
+
+        $data['travels'] = $data['travels']->paginate(10);
+
         return view('pages.perjalanan.index', $data);
     }
 

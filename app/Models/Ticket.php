@@ -20,6 +20,8 @@ class Ticket extends Model
         'is_half',
         'passport',
         'whatsapp',
+        'from',
+        'destination',
     ];
 
     public function travel(): BelongsTo

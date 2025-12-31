@@ -39,6 +39,8 @@ class EditTicketRequest extends FormRequest
             'passport' => 'nullable|string',
             'whatsapp' => 'required|string',
             'is_half' => 'nullable|boolean',
+            'from' => 'nullable|in:kupang,soe,kefa,atambua,dili',
+            'destination' => 'nullable|in:kupang,soe,kefa,atambua,dili',
         ];
     }
 }
