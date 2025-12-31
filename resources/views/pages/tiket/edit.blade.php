@@ -292,7 +292,7 @@
 
             travels.forEach(function(travel) {
                 html += `<option value="${travel.id}" ${travel.id == travelId ? 'selected' : ''}>
-                    ${travel.from} - ${travel.destination}
+                    ${travel.from} - ${travel.destination} (${travel.vehicle_number})
                 </option>`;
             });
 

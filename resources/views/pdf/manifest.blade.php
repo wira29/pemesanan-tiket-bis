@@ -77,7 +77,7 @@
                 {{ $ticket->citizenship ?? 'WNI' }}<br>
                 {{ $ticket->whatsapp }}
             </td>
-            <td>{{ $travel->from }} - {{ $travel->destination }}</td>
+            <td>{{ ($ticket->from != null && $ticket->destination != null) ? $ticket->from . ' - '  . $ticket->destination : $travel->from . ' - ' . $travel->destination }}</td>
             <td>{{ $ticket->passport }}</td>
             <td class="center">{{ $ticket->seat_no }}</td>
         </tr>

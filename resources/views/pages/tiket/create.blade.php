@@ -291,7 +291,7 @@
 
             travels.forEach(function(travel) {
                 html += `<option value="${travel.id}" data-is-half='${travel.is_half}'>
-                    ${travel.from} - ${travel.destination}
+                    ${travel.from} - ${travel.destination} (${travel.vehicle_number})
                 </option>`;
             });
 
