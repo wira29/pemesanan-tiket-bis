@@ -5,27 +5,90 @@
         body {
             font-size: 11px;
             font-family: DejaVu Sans;
+            margin-top: 120px; /* ruang untuk kop */
         }
+
+        .header {
+            position: fixed;
+            top: -10px;
+            left: 0;
+            right: 0;
+            height: 110px;
+        }
+
+        .header table {
+            width: 100%;
+            border: none;
+        }
+
+        .header td {
+            border: none;
+            vertical-align: top;
+        }
+
+        .logo {
+            width: 300px;
+        }
+
+        .company-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #c40000;
+        }
+
+        .company-info {
+            font-size: 10px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
         }
+
         th, td {
             border: 1px solid #000;
             padding: 4px;
             vertical-align: top;
         }
+
         th {
-            text-align: center;
-        }
-        .no-border td {
-            border: none;
-            padding: 2px;
-        }
-        .center { text-align: center; }
-    </style>
+        text-align: center;
+    }
+
+    .no-border td {
+        border: none;
+        padding: 2px;
+    }
+
+    .center {
+        text-align: center;
+    }
+
+    @page {
+        margin: 40px 30px 40px 30px;
+    }
+</style>
 </head>
 <body>
+
+<div class="header">
+    <table>
+        <tr>
+            <td width="60%">
+                <img src="{{ public_path('assets/bagong-logo.png') }}" class="logo">
+            </td>
+            <td width="40%" class="company-info">
+                Jl. Panglima Sudirman No. 8 Kepanjen - Malang<br>
+                Jawa Timur - Indonesia 65163<br>
+                Telp : 62 341 395 524, 393 382<br>
+                Fax  : 62 341 395 724<br>
+                Email: info@bagongbis.com<br>
+                Web  : www.bagongbis.com
+            </td>
+        </tr>
+    </table>
+</div>
+
 
 <table class="no-border">
     <tr>
@@ -77,7 +140,7 @@
                 {{ $ticket->citizenship ?? 'WNI' }}<br>
                 {{ $ticket->whatsapp }}
             </td>
-            <td>{{ ($ticket->from != null && $ticket->destination != null) ? $ticket->from . ' - '  . $ticket->destination : $travel->from . ' - ' . $travel->destination }} {{ $ticket->pickup ? '(' . $ticket->pickup . ')' : '' }}</td>
+            <td>{{ ($ticket->from != null && $ticket->destination != null) ? $ticket->from . ' - '  . $ticket->destination : $travel->from . ' - ' . $travel->destination }} <strong style="color: rgb(190, 171, 3);">{{ $ticket->pickup ? '(' . $ticket->pickup . ')' : '' }}</strong></td>
             <td>{{ $ticket->passport }}</td>
             <td class="center">{{ $ticket->seat_no }}</td>
         </tr>
@@ -91,7 +154,7 @@
     <tr>
         <td width="60%"></td>
         <td class="center">
-            Kupang, {{ \Carbon\Carbon::parse($travel->date)->translatedFormat('d F Y') }}<br><br><br>
+            Kupang, {{ \Carbon\Carbon::parse($travel->date)->translatedFormat('d F Y') }}<br><br><br><br><br><br>
             <strong>
                 Muhammad Deni Hasan, S.Tr.E<br>
                 (Penanggung Jawab Operasional)
