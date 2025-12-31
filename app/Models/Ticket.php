@@ -22,6 +22,8 @@ class Ticket extends Model
         'whatsapp',
         'from',
         'destination',
+        'citizenship',
+        'pickup',
     ];
 
     public function travel(): BelongsTo

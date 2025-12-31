@@ -32,6 +32,8 @@ class TicketRequest extends FormRequest
             'is_half' => 'nullable|boolean',
             'from' => 'nullable|in:kupang,soe,kefa,atambua,dili',
             'destination' => 'nullable|in:kupang,soe,kefa,atambua,dili',
+            'citizenship' => 'nullable|in:WNI,WNA',
+            'pickup' => 'nullable|string',
         ];
     }
 }

@@ -154,21 +154,41 @@
                             @enderror
                         </div>
                     </div>
-                    <!-- <div class="col-md-6 mb-3">
-                        <div class="form-group" id="half-form">
-                            <div class="form-check">
-                            <input class="form-check-input" name="is_half" type="checkbox" value="1" id="flexCheckDefault" {{ old('is_half') ? 'checked' : '' }}>
-                            <label class="form-check-label" for="flexCheckDefault">
-                              Setengah Perjalanan
-                            </label>
-                            @error('is_half')
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Kewarganegaraan</label>
+                            <select name="citizenship" class="form-control" id="">
+                                <option value="WNI" {{ old('citizenship') == "WNI" ? 'selected' : '' }}>WNI</option>
+                                <option value="WNA" {{ old('citizenship') == "WNA" ? 'selected' : '' }}>WNA</option>
+                            </select>
+                            @error('citizenship')
                                 <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <div class="form-group" id="half-form">
+                            <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1" id="pickup" {{ old('pickup') ? 'checked' : '' }}>
+                            <label class="form-check-label" for="pickup">
+                              Jemput Penumpang
+                            </label>
                           </div>
                         </div>
-                    </div> -->
+                    </div>
+                    <div class="col-md-6 mb-3 hide" id="input-pickup">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Posisi Jemput</label>
+                            <input type="text" name="pickup" class="form-control" value="{{ old('pickup') }}" placeholder="Jemput di Hotel X" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            @error('pickup')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="px-4 py-3 border-bottom">
@@ -276,6 +296,18 @@
 
 <script>
     $(document).ready(function() {
+
+        if ($('#pickup').is(':checked')) {
+            $('#input-pickup').removeClass('hide');
+        }
+
+        $('#pickup').change(function() {
+            if ($(this).is(':checked')) {
+                $('#input-pickup').removeClass('hide');
+            } else {
+                $('#input-pickup').addClass('hide');
+            }
+        });
 
         getTravelsByDate($('#date').val());
 
