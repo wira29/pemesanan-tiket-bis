@@ -26,7 +26,7 @@
             <div class="px-4 py-3 border-bottom">
               <h4 class="card-title mb-0">List Penumpang</h4>
             </div>
-            <div class="card-body p-4 border-bottom">
+            <div class="card-body p-4 border-bottom table-responsive">
                 <table class="table text-nowrap mb-0 align-middle">
                   <thead class="text-dark fs-4">
                     <tr>
