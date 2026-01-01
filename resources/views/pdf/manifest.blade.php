@@ -154,7 +154,11 @@
     <tr>
         <td width="60%"></td>
         <td class="center">
-            Kupang, {{ \Carbon\Carbon::parse($travel->date)->translatedFormat('d F Y') }}<br><br><br><br><br><br>
+            Kupang, {{ \Carbon\Carbon::parse($travel->date)->translatedFormat('d F Y') }}
+            <!-- <br><br><br><br><br><br> -->
+             <br>
+             <img src="{{ public_path('assets/ttd.jpg') }}" width="100" alt="">
+             <br>
             <strong>
                 Muhammad Deni Hasan, S.Tr.E<br>
                 (Penanggung Jawab Operasional)
