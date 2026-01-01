@@ -169,7 +169,7 @@
                         </div>
                     </div>
                     <div class="col-md-12 mb-3">
-                        <div class="form-group" id="half-form">
+                        <div class="form-group">
                             <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="pickup" {{ $ticket->pickup ? 'checked' : '' }}>
                             <label class="form-check-label" for="pickup">

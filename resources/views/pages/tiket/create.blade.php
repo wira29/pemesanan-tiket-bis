@@ -169,7 +169,7 @@
                         </div>
                     </div>
                     <div class="col-md-12 mb-3">
-                        <div class="form-group" id="half-form">
+                        <div class="form-group" >
                             <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="pickup" {{ old('pickup') ? 'checked' : '' }}>
                             <label class="form-check-label" for="pickup">
@@ -341,15 +341,6 @@
             if (!selected.val()) {
                 console.log('Belum ada rute dipilih');
                 return;
-            }
-
-            const isHalf = selected.data('is-half');
-
-            if (isHalf == 1) {
-                $('#half-form').show();
-            } else {
-                $('#half-form input').prop('checked', false);
-                $('#half-form').hide();
             }
 
             // reset semua seat
