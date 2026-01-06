@@ -75,6 +75,16 @@
                       <a href="{{ url()->current() }}" class="btn btn-outline-secondary">
                           Reset
                       </a>
+
+                      <button
+                          type="button"
+                          id="btn-delete-selected"
+                          class="btn btn-danger d-none"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modal-delete-multiple"
+                      >
+                          <i class="ti ti-trash"></i> Hapus Terpilih
+                      </button>
                   </div>
               </form>
           </div>
@@ -83,6 +93,9 @@
                 <table class="table text-nowrap mb-0 align-middle">
                   <thead class="text-dark fs-4">
                     <tr>
+                      <th>
+                        <input type="checkbox" class="form-check-input" id="check-all">
+                      </th>
                       <th>
                         <h6 class="fs-4 fw-semibold mb-0">Kendaraan</h6>
                       </th>
@@ -106,6 +119,13 @@
                   <tbody>
                     @forEach($tickets as $ticket)
                       <tr>
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="form-check-input ticket-checkbox"
+                                value="{{ $ticket->id }}"
+                            >
+                        </td>
                         <td>
                           <div class="d-flex align-items-center">
                             <a href="javascript:void(0)" class="text-bg-secondary text-white fs-6 round-40 rounded-circle me-n2 card-hover border border-2 border-white d-flex align-items-center justify-content-center">
@@ -176,6 +196,35 @@
                         </div>
                         <!-- /.modal-dialog -->
                       </div>
+          
+        <!-- dialog delete multiple  -->
+         <div class="modal fade" id="modal-delete-multiple" tabindex="-1">
+          <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+                  <form method="POST" action="{{ route('tickets.destroyMultiple') }}">
+                      @csrf
+                      @method('DELETE')
+
+                      <div id="selected-ids-wrapper"></div>
+
+                      <div class="modal-header">
+                          <h5 class="modal-title">Konfirmasi</h5>
+                      </div>
+                      <div class="modal-body">
+                          Hapus tiket yang dipilih?
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                              Batal
+                          </button>
+                          <button type="submit" class="btn btn-danger">
+                              Hapus
+                          </button>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
 @endsection
 
 @push('js')
@@ -184,6 +233,39 @@
         $('.btn-delete').click(function() {
             let id = $(this).data('id');
             $('#delete-form').attr('action', `{{ route('tickets.destroy', ':id') }}`.replace(':id', id));
+        });
+
+        // check all
+        $('#check-all').on('change', function () {
+            $('.ticket-checkbox').prop('checked', $(this).is(':checked'));
+            toggleDeleteButton();
+        });
+
+        // single checkbox
+        $(document).on('change', '.ticket-checkbox', function () {
+            toggleDeleteButton();
+        });
+
+        function toggleDeleteButton() {
+            let checked = $('.ticket-checkbox:checked').length;
+
+            if (checked > 0) {
+                $('#btn-delete-selected').removeClass('d-none');
+            } else {
+                $('#btn-delete-selected').addClass('d-none');
+            }
+        }
+
+        // saat buka modal
+        $('#modal-delete-multiple').on('show.bs.modal', function () {
+            let wrapper = $('#selected-ids-wrapper');
+            wrapper.empty();
+
+            $('.ticket-checkbox:checked').each(function () {
+                wrapper.append(
+                    `<input type="hidden" name="ids[]" value="${$(this).val()}">`
+                );
+            });
         });
     });
 </script>

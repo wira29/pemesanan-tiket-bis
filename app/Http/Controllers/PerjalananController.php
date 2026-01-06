@@ -114,7 +114,7 @@ class PerjalananController extends Controller
     public function print(Travel $travel)
     {
         $tickets = $travel->tickets()
-            ->orderBy('seat_no')
+            ->orderBy('whatsapp')
             ->get();
 
         $pdf = Pdf::loadView('pdf.manifest', [

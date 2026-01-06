@@ -13,6 +13,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/travels/{travel}/print', [PerjalananController::class, 'print'])->name('travels.print');
     Route::get('travels/getTravelsByDate', [PerjalananController::class, 'getTravelsByDate'])->name('travels.getTravelsByDate');
     Route::get('/travel/{travel}/seats', [PerjalananController::class, 'seats']);
+    Route::delete('/tickets/multiple', [TicketController::class, 'destroyMultiple'])->name('tickets.destroyMultiple');
     Route::resource('travels', PerjalananController::class);
     Route::resource('tickets', TicketController::class);
 });

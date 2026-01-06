@@ -23,17 +23,35 @@ class TicketRequest extends FormRequest
     {
         return [
             'travel_id' => 'required',
-            'seat_no' => 'required',
-            'name' => 'required|string',
-            'gender' => 'in:m,f|nullable',
-            'age' => 'nullable|in:dewasa,anak-anak',
-            'passport' => 'nullable|string',
             'whatsapp' => 'required|string',
-            'is_half' => 'nullable|boolean',
+            'pickup' => 'nullable|string',
             'from' => 'nullable|in:kupang,soe,kefa,atambua,dili',
             'destination' => 'nullable|in:kupang,soe,kefa,atambua,dili',
-            'citizenship' => 'nullable|in:WNI,WNA',
-            'pickup' => 'nullable|string',
+            'is_half' => 'nullable|boolean',
+            'seat_no' => ['required', 'array', 'min:1'],
+            'seat_no.*' => ['integer'],
+            'passengers' => ['required', 'array', 'min:1'],
+            'passengers.*.name' => ['required', 'string', 'max:100'],
+            'passengers.*.gender' => ['required', 'in:m,f'],
+            'passengers.*.age' => ['required', 'in:dewasa,anak-anak'],
+            'passengers.*.passport' => ['nullable', 'string'],
+            'passengers.*.citizenship' => ['required', 'in:WNI,WNA'],
         ];
+    }
+
+    protected function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+
+            $passengerCount = count($this->input('passengers', []));
+            $seatCount = count($this->input('seat_no', []));
+
+            if ($passengerCount !== $seatCount) {
+                $validator->errors()->add(
+                    'seat_no',
+                    'Jumlah kursi harus sama dengan jumlah penumpang.'
+                );
+            }
+        });
     }
 }

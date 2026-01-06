@@ -25,7 +25,7 @@
         <form action="{{ route('tickets.store') }}" method="POST">
             @method('POST')
             @csrf()
-            <input type="hidden" id="seat_no" name="seat_no" value="{{ old('seat_no') }}">
+            <div id="seat-input-wrapper"></div>
             <input type="hidden" id="travel_id" name="travel_id" value="{{ old('travel_id') }}">
             <div class="px-4 py-3 border-bottom">
               <h4 class="card-title mb-0">Formulir Tambah Tiket</h4>
@@ -95,73 +95,9 @@
                     <hr>
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Nama <span class="text-danger">*</span></label>
-                            <input type="text" placeholder="Rahmat Arianto" name="name" class="form-control" value="{{ old('name') }}" id="exampleInputPassword1">
-                            @error('name')
-                                <span class="text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="form-group">
                             <label for="exampleInputEmail1">Nomor Whatsapp <span class="text-danger">*</span></label>
                             <input type="text" name="whatsapp" class="form-control" value="{{ old('whatsapp') }}" placeholder="08XXXXXXXX" id="exampleInputEmail1" aria-describedby="emailHelp">
                             @error('whatsapp')
-                                <span class="text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Jenis Kelamin</label>
-                            <select name="gender" class="form-control" id="">
-                                <option value="m">Laki-Laki</option>
-                                <option value="f">Perempuan</option>
-                            </select>
-                            @error('gender')
-                                <span class="text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Usia</label>
-                            <select name="age" class="form-control" id="">
-                                <option value="dewasa">Dewasa</option>
-                                <option value="anak-anak">Anak-Anak</option>
-                            </select>
-                            @error('age')
-                                <span class="text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Nomor Passport</label>
-                            <input type="text" name="passport" class="form-control" value="{{ old('passport') }}" placeholder="XXXXXXXX" id="exampleInputEmail1" aria-describedby="emailHelp">
-                            @error('passport')
-                                <span class="text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Kewarganegaraan</label>
-                            <select name="citizenship" class="form-control" id="">
-                                <option value="WNI" {{ old('citizenship') == "WNI" ? 'selected' : '' }}>WNI</option>
-                                <option value="WNA" {{ old('citizenship') == "WNA" ? 'selected' : '' }}>WNA</option>
-                            </select>
-                            @error('citizenship')
                                 <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -188,6 +124,84 @@
                                 </span>
                             @enderror
                         </div>
+                    </div>
+                    <hr>
+                    <div class="row passenger-item passenger-template">
+                        <div class="col-md-12 text-end mb-2 remove-wrapper d-none">
+                            <button type="button" class="btn btn-sm btn-outline-danger remove-passenger">
+                                Hapus Penumpang
+                            </button>
+                        </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Nama <span class="text-danger">*</span></label>
+                            <input type="text" placeholder="Rahmat Arianto" name="passengers[0][name]" class="form-control" value="{{ old('passengers.0.name') }}" id="exampleInputPassword1">
+                            @error('passengers.0.name')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Jenis Kelamin</label>
+                            <select name="passengers[0][gender]" class="form-control" id="">
+                                <option value="m">Laki-Laki</option>
+                                <option value="f">Perempuan</option>
+                            </select>
+                            @error('passengers.0.gender')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Usia</label>
+                            <select name="passengers[0][age]" class="form-control" id="">
+                                <option value="dewasa">Dewasa</option>
+                                <option value="anak-anak">Anak-Anak</option>
+                            </select>
+                            @error('passengers.0.age')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Nomor Passport</label>
+                            <input type="text" name="passengers[0][passport]" class="form-control" value="{{ old('passengers.0.passport') }}" placeholder="XXXXXXXX" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            @error('passengers.0.passport')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Kewarganegaraan</label>
+                            <select name="passengers[0][citizenship]" class="form-control" id="">
+                                <option value="WNI" {{ old('passengers.0.citizenship') == "WNI" ? 'selected' : '' }}>WNI</option>
+                                <option value="WNA" {{ old('passengers.0.citizenship') == "WNA" ? 'selected' : '' }}>WNA</option>
+                            </select>
+                            @error('passengers.0.citizenship')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <button type="button" id="add-passenger" class="btn btn-outline-primary btn-sm">
+                            + Tambah Penumpang
+                        </button>
                     </div>
                 </div>
             </div>
@@ -385,20 +399,56 @@
             });
         }
         
-        $('.seat').click(function() {
-            // check if checked 
-            let checks = $(this).attr('class');
-            if (checks.indexOf('active') > -1) {
-                $('#seat_no').val("");
+        let passengerIndex = 1;
+
+        $('#add-passenger').click(function () {
+
+            let clone = $('.passenger-template').first().clone();
+
+            // update name index & reset value
+            clone.find('input, select').each(function () {
+                let name = $(this).attr('name');
+
+                if (name) {
+                    let newName = name.replace('[0]', '[' + passengerIndex + ']');
+                    $(this).attr('name', newName);
+
+                    if ($(this).is('input')) {
+                        $(this).val('');
+                    }
+                }
+            });
+
+            // tampilkan tombol hapus
+            clone.find('.remove-wrapper').removeClass('d-none');
+
+            clone.insertBefore($(this).closest('.col-md-12'));
+            passengerIndex++;
+        });
+
+        $(document).on('click', '.remove-passenger', function () {
+            $(this).closest('.passenger-item').remove();
+        });
+
+        $('.seat').click(function () {
+
+            if ($(this).hasClass('seat-booked')) return;
+
+            let seatNo = $(this).data('val');
+
+            // batal pilih
+            if ($(this).hasClass('active')) {
                 $(this).removeClass('active');
+                $(`#seat-input-wrapper input[value="${seatNo}"]`).remove();
                 return;
             }
 
-            $('.seat.active').removeClass('active');
-
-            var seat_no = $(this).data('val');
-            $('#seat_no').val(seat_no);
+            // pilih kursi
             $(this).addClass('active');
+
+            $('#seat-input-wrapper').append(
+                `<input type="hidden" name="seat_no[]" value="${seatNo}">`
+            );
         });
     });
 </script>

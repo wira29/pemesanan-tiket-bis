@@ -6,6 +6,7 @@ use App\Http\Requests\EditTicketRequest;
 use App\Http\Requests\TicketRequest;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use function Symfony\Component\Clock\now;
 
@@ -58,7 +59,25 @@ class TicketController extends Controller
      */
     public function store(TicketRequest $request)
     {
-        Ticket::create($request->validated());
+        DB::transaction(function () use ($request) {
+
+            foreach ($request->passengers as $index => $passenger) {
+                Ticket::create([
+                    'from' => $request->from,
+                    'destination' => $request->destination,
+                    'whatsapp' => $request->whatsapp,
+                    'pickup' => $request->pickup,
+                    'name' => $passenger['name'],
+                    'gender' => $passenger['gender'],
+                    'age' => $passenger['age'],
+                    'passport' => $passenger['passport'],
+                    'citizenship' => $passenger['citizenship'],
+                    'seat_no' => $request->seat_no[$index] ?? null,
+                    'travel_id' => $request->travel_id,
+                ]);
+            }
+        });
+
         return redirect()->route('tickets.index');
     }
 
@@ -94,5 +113,17 @@ class TicketController extends Controller
     {
         $ticket->delete();
         return redirect()->route('tickets.index');
+    }
+
+    public function destroyMultiple(Request $request)
+    {
+        $request->validate([
+            'ids' => ['required', 'array'],
+            'ids.*' => ['exists:tickets,id'],
+        ]);
+
+        Ticket::whereIn('id', $request->ids)->delete();
+
+        return redirect()->back()->with('success', 'Tiket berhasil dihapus');
     }
 }
