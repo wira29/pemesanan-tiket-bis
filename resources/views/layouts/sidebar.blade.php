@@ -41,6 +41,14 @@
                 <span class="hide-menu">Tiket</span>
               </a>
             </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link {{ request()->routeIs('invoices.*') ? 'active' : '' }}" href="{{ route('invoices.index') }}"  aria-expanded="false">
+                <span>
+                  <i class="ti ti-file-invoice"></i>
+                </span>
+                <span class="hide-menu">Invoice</span>
+              </a>
+            </li>
           </ul>
         </nav>
 

@@ -126,4 +126,13 @@ class TicketController extends Controller
 
         return redirect()->back()->with('success', 'Tiket berhasil dihapus');
     }
+
+    function getTicketByTravel(String $travelId)
+    {
+        $tickets = Ticket::where('travel_id', $travelId)->orderBy('whatsapp', 'asc')->get();
+
+        return response()->json([
+            'tickets' => $tickets
+        ]);
+    }
 }

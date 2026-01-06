@@ -6,13 +6,13 @@
         <div class="card-body px-4 py-3">
             <div class="row align-items-center">
             <div class="col-9">
-                <h4 class="fw-semibold mb-8">Halaman Perjalanan</h4>
-                <p class="text-muted">Kumpulan perjalanan di perushanan anda</p>
-                <a href="{{ route('travels.create') }}" class="btn btn-primary text-white"><i class="ti ti-plus"></i> Tambah Perjalanan</a>
+                <h4 class="fw-semibold mb-8">Halaman Invoice</h4>
+                <p class="text-muted">Kumpulan invoice di perushanan anda</p>
+                <a href="{{ route('invoices.create') }}" class="btn btn-primary text-white"><i class="ti ti-plus"></i> Tambah Invoice</a>
             </div>
             <div class="col-3">
                 <div class="text-center mb-n5">
-                <img src="../assets/images/breadcrumb/ChatBc.png" alt="modernize-img" class="img-fluid mb-n4">
+                <img src="{{ asset('') }}assets/images/breadcrumb/ChatBc.png" alt="modernize-img" class="img-fluid mb-n4">
                 </div>
             </div>
             </div>
@@ -44,13 +44,13 @@
                   </div>
 
                   <div class="col-md-3">
-                      <label class="form-label">No Kendaraan</label>
+                      <label class="form-label">No Invoice</label>
                       <input
                           type="text"
-                          name="vehicle_number"
+                          name="invoice_code"
                           class="form-control"
-                          placeholder="DH 7168 AA"
-                          value="{{ request('vehicle_number') }}"
+                          placeholder="INV-05267"
+                          value="{{ request('invoice_code') }}"
                       >
                   </div>
 
@@ -71,13 +71,13 @@
                   <thead class="text-dark fs-4">
                     <tr>
                       <th>
+                        <h6 class="fs-4 fw-semibold mb-0">No Invoice</h6>
+                      </th>
+                      <th>
                         <h6 class="fs-4 fw-semibold mb-0">Kendaraan</h6>
                       </th>
                       <th>
-                        <h6 class="fs-4 fw-semibold mb-0">Rute</h6>
-                      </th>
-                      <th>
-                        <h6 class="fs-4 fw-semibold mb-0">Penumpang</h6>
+                        <h6 class="fs-4 fw-semibold mb-0">Total</h6>
                       </th>
                       <th>
                         <h6 class="fs-4 fw-semibold mb-0">Tanggal</h6>
@@ -88,60 +88,51 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach($travels as $travel)
-                    <tr>
-                      <td>
-                        <div class="d-flex align-items-center">
-                          <a href="javascript:void(0)" class="text-bg-secondary text-white fs-6 round-40 rounded-circle me-n2 card-hover border border-2 border-white d-flex align-items-center justify-content-center">
-                                    <i class="ti ti-bus"></i>
-                                </a>
-                          <div class="ms-3">
-                            <h6 class="fs-4 fw-semibold mb-0">{{ $travel->vehicle_number }}</h6>
-                            <!-- <span class="fw-normal">Web Designer</span> -->
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="mb-0 fw-normal fs-4">{{ $travel->from }} - {{ $travel->destination }}</p>
-                      </td>
-                      <td>
-                        @if ($travel->tickets->count() > 3)
-                        <div class="d-flex align-items-center gap-4 mb-4">
-                            <div class="d-flex align-items-center">
-                                @for ($i = 0; $i < 3; $i++)
-                                  <a href="javascript:void(0)" class="text-bg-secondary text-white fs-6 round-40 rounded-circle me-n2 card-hover border border-2 border-white d-flex align-items-center justify-content-center">
-                                    {{ $travel->tickets[$i]->name[0] }}
-                                </a>
-                                @endfor
+                    @foreach($invoices as $invoice)
+                      <tr>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <a href="javascript:void(0)" class="text-bg-secondary text-white fs-6 round-40 rounded-circle me-n2 card-hover border border-2 border-white d-flex align-items-center justify-content-center">
+                                      <i class="ti ti-file-invoice"></i>
+                                  </a>
+                            <div class="ms-3">
+                              <h6 class="fs-4 fw-semibold mb-0">{{ $invoice->invoice_code }}</h6>
+                              <!-- <span class="fw-normal">Web Designer</span> -->
                             </div>
-                            <p class="mb-0">+{{ $travel->tickets->count() - 3 }} penumpang lainnya</p>
-                        </div>
-                        @else 
-                            <p class="mb-0">{{ $travel->tickets->count() }} penumpang</p>
-                        @endif
-                      </td>
-                      <td>
-                        {{ $travel->date->format('d F Y') }}
-                      </td>
-                      <td>
-                        <a href="{{ route('travels.show', $travel->id) }}" class="btn bg-primary-subtle text-primary">
-                            <i class="ti ti-eye"></i>
-                        </a>
-                        <a href="{{ route('travels.edit', $travel->id) }}" class="btn bg-warning-subtle text-warning">
+                          </div>
+                        </td>
+                        <td>
+                          <div class="ms-3">
+                              <h6 class="fs-4 fw-semibold mb-0">{{ $invoice->travel->vehicle_number }}</h6>
+                              <span class="fw-normal">{{ $invoice->travel->from }} - {{ $invoice->travel->destination }}</span>
+                            </div>
+                          
+                        </td>
+                        <td>
+                          Rp {{ number_format($invoice->total_price, 0, ',', '.') }}
+                        </td>
+                        <td>
+                          {{ $invoice->date->format('d F Y') }}
+                        </td>
+                        <td>
+                          <a target="_blank" href="{{ route('invoices.print', $invoice->invoice_code) }}" class="btn bg-primary-subtle text-primary">
+                            <i class="ti ti-printer"></i>
+                          </a>
+                          <a href="{{ route('invoices.edit', $invoice->id) }}" class="btn bg-warning-subtle text-warning">
                             <i class="ti ti-edit"></i>
-                        </a>
-                        <button class="btn bg-danger-subtle text-danger btn-delete" data-id="{{ $travel->id }}" data-bs-toggle="modal" data-bs-target="#bs-example-modal-sm">
+                          </a>
+                          <button class="btn bg-danger-subtle text-danger btn-delete" data-id="{{ $invoice->id }}" data-bs-toggle="modal" data-bs-target="#bs-example-modal-sm">
                             <i class="ti ti-trash"></i>
-                        </button>
-                      </td>
-                    </tr>
+                          </button>
+                        </td>
+                      </tr>
                     @endforeach
                   </tbody>
                 </table>
               </div>
             </div>
             <div class="px-4 py-3 border-bottom">
-                {{ $travels->appends(request()->only('date', 'vehicle_number'))->links() }}
+              {{ $invoices->appends(request()->only('date', 'invoice_code',))->links() }}
             </div>
           </div>
 
@@ -183,7 +174,7 @@
     $(document).ready(function() {
         $('.btn-delete').click(function() {
             let id = $(this).data('id');
-            $('#delete-form').attr('action', `{{ route('travels.destroy', ':id') }}`.replace(':id', id));
+            $('#delete-form').attr('action', `{{ route('invoices.destroy', ':id') }}`.replace(':id', id));
         });
     });
 </script>

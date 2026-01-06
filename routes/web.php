@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PerjalananController;
 use App\Http\Controllers\TicketController;
 use Illuminate\Support\Facades\Auth;
@@ -14,8 +15,11 @@ Route::middleware('auth')->group(function () {
     Route::get('travels/getTravelsByDate', [PerjalananController::class, 'getTravelsByDate'])->name('travels.getTravelsByDate');
     Route::get('/travel/{travel}/seats', [PerjalananController::class, 'seats']);
     Route::delete('/tickets/multiple', [TicketController::class, 'destroyMultiple'])->name('tickets.destroyMultiple');
+    Route::get('/tickets/getTicketByTravel/{travelId}', [TicketController::class, 'getTicketByTravel'])->name('tickets.getTicketByTravel');
+    Route::get('/invoices/{invoice}/print', [InvoiceController::class, 'print'])->name('invoices.print');
     Route::resource('travels', PerjalananController::class);
     Route::resource('tickets', TicketController::class);
+    Route::resource('/invoices', InvoiceController::class);
 });
 
 Route::get('/layout', function () {
