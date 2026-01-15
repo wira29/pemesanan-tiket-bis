@@ -11,7 +11,7 @@ class TicketObserver
     public function creating(Ticket $ticket): void
     {
         $ticket->id = Str::uuid();
-        $ticket->created_by = auth()->user()->id;
+        $ticket->created_by = auth()->check() ? auth()->user()->id : null;
     }
 
     /**

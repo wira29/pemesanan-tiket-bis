@@ -36,6 +36,8 @@ class TicketRequest extends FormRequest
             'passengers.*.age' => ['required', 'in:dewasa,anak-anak'],
             'passengers.*.passport' => ['nullable', 'string'],
             'passengers.*.citizenship' => ['required', 'in:WNI,WNA'],
+            'price' => 'integer|nullable',
+            'date' => 'date',
         ];
     }
 

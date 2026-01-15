@@ -7,6 +7,7 @@ use App\Models\Travel;
 use App\Observers\TicketObserver;
 use App\Observers\TravelObserver;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Config::set('terbilang.locale', 'id');
         Paginator::useBootstrap();
         Travel::observe(TravelObserver::class);
         Ticket::observe(TicketObserver::class);
