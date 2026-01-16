@@ -65,11 +65,11 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Naik</label>
                                     <select name="from" class="form-control" id="from">
-                                        <option value="kupang" {{ old('form') == 'kupang' ? 'selected' : '' }}>Kupang</option>
+                                        <!-- <option value="kupang" {{ old('form') == 'kupang' ? 'selected' : '' }}>Kupang</option>
                                         <option value="soe" {{ old('form') == 'soe' ? 'selected' : '' }}>Soe</option>
                                         <option value="kefa" {{ old('form') == 'kefa' ? 'selected' : '' }}>Kefa</option>
                                         <option value="atambua" {{ old('form') == 'atambua' ? 'selected' : '' }}>Atambua</option>
-                                        <option value="dili" {{ old('form') == 'dili' ? 'selected' : '' }}>Dili</option>
+                                        <option value="dili" {{ old('form') == 'dili' ? 'selected' : '' }}>Dili</option> -->
                                     </select>
                                     @error('from')
                                         <span class="text-danger" role="alert">
@@ -82,11 +82,11 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Turun</label>
                                     <select name="destination" class="form-control" id="destination">
-                                        <option value="kupang" {{ old('destination') == 'kupang' ? 'selected' : '' }}>Kupang</option>
+                                        <!-- <option value="kupang" {{ old('destination') == 'kupang' ? 'selected' : '' }}>Kupang</option>
                                         <option value="soe" {{ old('destination') == 'soe' ? 'selected' : '' }}>Soe</option>
                                         <option value="kefa" {{ old('destination') == 'kefa' ? 'selected' : '' }}>Kefa</option>
                                         <option value="atambua" {{ old('destination') == 'atambua' ? 'selected' : '' }}>Atambua</option>
-                                        <option value="dili" {{ old('destination') == 'dili' ? 'selected' : '' }}>Dili</option>
+                                        <option value="dili" {{ old('destination') == 'dili' ? 'selected' : '' }}>Dili</option> -->
                                     </select>
                                     @error('destination')
                                         <span class="text-danger" role="alert">
@@ -333,6 +333,21 @@
 <script>
     $(document).ready(function() {
         let bookedSeats = [];
+        let selected_from = '';
+        let destination = {
+            'kupang': {
+                'kupang' : ['soe', 'kefa', 'atambua', 'dili'],
+                'soe' : ['kefa', 'atambua', 'dili'],
+                'kefa' : ['atambua', 'dili'],
+                'atambua' : ['dili'],
+            },
+            'dili': {
+                'dili': ['kupang', 'soe', 'kefa', 'atambua'],
+                'atambua': ['kupang', 'soe', 'kefa'],
+                'kefa': ['kupang', 'soe'],
+                'soe': ['kupang'],
+            },
+        }
 
         if ($('#pickup').is(':checked')) {
             $('#input-pickup').removeClass('hide');
@@ -359,7 +374,7 @@
             let html = '<option value="">-- Pilih Rute --</option>';
 
             travels.forEach(function(travel) {
-                html += `<option value="${travel.id}" data-is-half='${travel.is_half}'>
+                html += `<option value="${travel.id}" data-from='${travel.from}' data-is-half='${travel.is_half}'>
                     ${travel.from} - ${travel.destination} (${travel.vehicle_number})
                 </option>`;
             });
@@ -372,6 +387,28 @@
         $('#rute').change(function () {
             const travelId = $(this).val();
             $('#travel_id').val(travelId);
+            
+            // set from 
+            let rute_from = $(this).find('option:selected').data('from').toLowerCase();
+            console.log(rute_from);
+            rute_from = rute_from.includes('kupang') ? 'kupang' : 'dili';
+            selected_from = rute_from;
+            if (rute_from == 'kupang') {
+                let fr = ['kupang', 'soe', 'kefa', 'atambua'];
+                let opt = '';
+                fr.map(function(from) {
+                    opt += `<option value="${from}">${from}</option>`;
+                });
+                $('#from').html(opt);
+            } else {
+                let fr = ['dili', 'atambua', 'kefa', 'soe'];
+                let opt = '';
+                fr.map(function(from) {
+                    opt += `<option value="${from}">${from}</option>`;
+                });
+                $('#from').html(opt);
+            }
+            $('#from').trigger('change');
 
             const selected = $(this).find('option:selected');
 
@@ -478,11 +515,13 @@
 
             setPrice();
         });
+        
 
         setPrice();
         function setPrice() {
             const route = $('#from').val() + ' - ' + $('#destination').val();
             const price = checkPrice(route);
+            console.log(price, route);
             
             if (price === null) {
                 $('#price').val(0);
@@ -501,8 +540,17 @@
         }
 
         $('#from').change(function () {
+            
+            // set destination
+            let selectedDestination = destination[selected_from][$(this).val()];
+            let option = '';
+            selectedDestination.map(function(destination) {
+                option += `<option value="${destination}">${destination}</option>`;
+            });
+
+            $('#destination').html(option);
+            
             setPrice();
-            console.log('change');
         });
 
         $('#destination').change(function () {
@@ -524,7 +572,7 @@
                     currency: 'IDR'
                 },
                 'kupang - dili': {
-                    total: 250000,
+                    total: 350000,
                     currency: 'IDR'
                 },
                 'soe - kefa': {
@@ -536,7 +584,7 @@
                     currency: 'IDR'
                 },
                 'soe - dili': {
-                    total: 250000,
+                    total: 350000,
                     currency: 'IDR'
                 },
                 'kefa - atambua': {
