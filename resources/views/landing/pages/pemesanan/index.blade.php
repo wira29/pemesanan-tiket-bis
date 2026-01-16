@@ -421,6 +421,7 @@
             $('.seat')
                 .removeClass('seat-booked active')
                 .prop('disabled', false);
+            setPrice();
 
             $('#seat_no').val("");
 
